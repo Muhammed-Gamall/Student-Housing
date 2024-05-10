@@ -1,0 +1,6 @@
+@sakan_HostAddress = http://localhost:5160
+
+GET {{sakan_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
