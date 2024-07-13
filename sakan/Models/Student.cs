@@ -13,8 +13,6 @@ namespace sakan.Models
         public string Governorate { set; get; }
         public int Level { set; get; }
         public byte[]? Photo { get; set; }
-
-        public List<int>? Saved =new List<int>();
         public int? HouseNum { set; get; }
         public int? HouseID { set; get; }
         public House House { set; get; }

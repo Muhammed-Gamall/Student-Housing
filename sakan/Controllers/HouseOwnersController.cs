@@ -20,40 +20,24 @@ namespace sakan.Controllers
             _mapper = mapper;
         }
 
-        //veiw Owner profile("https://localhost:7221/api/HouseOwners/5 Veiw Owner Profile")
+        //veiw Owner profile("http://localhost:5160/api/HouseOwners/1/VeiwOwnerProfile")
         [HttpGet("{id}/VeiwOwnerProfile")]
         public async Task<IActionResult> GetOwnerInfo(int id)
         {
-
             var owner = await _context.HouseOwners.Where(x => x.Id == id).Select(w => new CreateOwnerDTO
             {
                 Name = w.Name,
                 Email = w.Email,
                 Password = w.Password,
-                phone = w.phone
+              
             })
               .ToListAsync();
             return Ok(owner);
 
-            //var owner = _context.HouseOwners.Where(x=>x.Id == id).ToListAsync();
-            //return Ok(_mapper.Map<List<CreateOwnerDTO>>(owner));
         }
 
 
-
-        //sign up ("https://localhost:7221/api/HouseOwners")
-        //[HttpPost("SignUp")]
-        //public async Task<IActionResult> createOwner([FromForm] CreateOwnerDTO dto)
-        //{
-        //    var owner = _mapper.Map<HouseOwner>(dto);
-
-        //    await _context.AddAsync(owner);
-        //    await _context.SaveChangesAsync();
-
-        //    return Created();
-        //}
-
-        ////update account info("https://localhost:7221/api/HouseOwners/id?id=1")
+        ////update account info("http://localhost:5160/api/HouseOwners/1/UpdateAccountInfo")
         [HttpPut("{id}/UpdateAccountInfo")]
         public async Task<IActionResult> updateOwner(int id, [FromForm] CreateOwnerDTO dto)
         {
@@ -62,13 +46,11 @@ namespace sakan.Controllers
             owner.Name = dto.Name ?? owner.Name;
             owner.Email = dto.Email ?? owner.Email;
             owner.Password = dto.Password ?? owner.Password;
-            owner.phone = dto.phone ?? owner.phone;
-
             await _context.SaveChangesAsync();
             return Created();
         }
 
-        //Delete account("https://localhost:7221/api/HouseOwners/id?id=2")
+        //Delete account("http://localhost:5160/api/HouseOwners/1/DeleteAccount")
         [HttpDelete("{id}/DeleteAccount")]
         public async Task<IActionResult> DeleteById(int id)
         {

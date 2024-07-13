@@ -22,6 +22,81 @@ namespace sakan.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("sakan.Models.Admin", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("passwared")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Admins");
+                });
+
+            modelBuilder.Entity("sakan.Models.AdminHouse", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Floor")
+                        .HasColumnType("int");
+
+                    b.Property<int>("HouseOwnerID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NumOfBeds")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NumOfRooms")
+                        .HasColumnType("int");
+
+                    b.Property<byte[]>("Photo1")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("Photo2")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("Photo3")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("Photo4")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<int>("Price")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Sex")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Time")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("phone")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HouseOwnerID");
+
+                    b.ToTable("AdminHouses");
+                });
+
             modelBuilder.Entity("sakan.Models.House", b =>
                 {
                     b.Property<int>("Id")
@@ -49,14 +124,29 @@ namespace sakan.Migrations
                     b.Property<int>("NumOfRooms")
                         .HasColumnType("int");
 
-                    b.Property<byte[]>("Photo")
+                    b.Property<byte[]>("Photo1")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("Photo2")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("Photo3")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("Photo4")
                         .HasColumnType("varbinary(max)");
 
                     b.Property<int>("Price")
                         .HasColumnType("int");
 
-                    b.Property<string>("sex")
+                    b.Property<string>("Sex")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Time")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("phone")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -85,15 +175,9 @@ namespace sakan.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("phone")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("Email")
-                        .IsUnique();
-
-                    b.HasIndex("phone")
                         .IsUnique();
 
                     b.ToTable("HouseOwners");
@@ -106,6 +190,9 @@ namespace sakan.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("AdminHouseId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -145,12 +232,25 @@ namespace sakan.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AdminHouseId");
+
                     b.HasIndex("Email")
                         .IsUnique();
 
                     b.HasIndex("HouseID");
 
                     b.ToTable("Students");
+                });
+
+            modelBuilder.Entity("sakan.Models.AdminHouse", b =>
+                {
+                    b.HasOne("sakan.Models.HouseOwner", "HouseOwner")
+                        .WithMany()
+                        .HasForeignKey("HouseOwnerID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("HouseOwner");
                 });
 
             modelBuilder.Entity("sakan.Models.House", b =>
@@ -166,11 +266,20 @@ namespace sakan.Migrations
 
             modelBuilder.Entity("sakan.Models.Student", b =>
                 {
+                    b.HasOne("sakan.Models.AdminHouse", null)
+                        .WithMany("Student")
+                        .HasForeignKey("AdminHouseId");
+
                     b.HasOne("sakan.Models.House", "House")
                         .WithMany("Student")
                         .HasForeignKey("HouseID");
 
                     b.Navigation("House");
+                });
+
+            modelBuilder.Entity("sakan.Models.AdminHouse", b =>
+                {
+                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("sakan.Models.House", b =>

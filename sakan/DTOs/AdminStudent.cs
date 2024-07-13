@@ -1,7 +1,8 @@
 ﻿namespace sakan.DTOs
 {
-    public class RoommatesDTO
+    public class AdminStudent
     {
+        public int Id { get; set; }
         public string Name { set; get; }
         public string faculty { set; get; }
         public string Governorate { set; get; }

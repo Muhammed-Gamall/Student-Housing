@@ -25,6 +25,8 @@ namespace sakan.Controllers
             _mapper = mapper;
         }
 
+
+        //http://localhost:5160/api/Tokens/StudentLogin
         [HttpPost("StudentLogin")]
         public async Task<ActionResult> StudentLogin(AuthDTO userAuth)
         {
@@ -44,9 +46,9 @@ namespace sakan.Controllers
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Token.SigningKey)), SecurityAlgorithms.HmacSha256),
                     Subject = new ClaimsIdentity(new[]
                     {
-                new Claim(ClaimTypes.NameIdentifier, id),
-                new Claim(ClaimTypes.Gender, gender)
-            })
+                       new Claim(ClaimTypes.NameIdentifier, id),
+                       new Claim(ClaimTypes.Gender, gender)
+                    })
                 };
 
                 var securityToken = tokenHandler.CreateToken(tokenDescriptor);
@@ -59,9 +61,9 @@ namespace sakan.Controllers
         }
 
 
-
+        //http://localhost:5160/api/Tokens/StudentSignUp
         [HttpPost("StudentSignUp")]
-        public async Task<IActionResult> createStudent([FromForm] CreateStudentDTO dto)
+        public async Task<IActionResult> createStudent(CreateStudentDTO dto)
         {
 
             var stud = _mapper.Map<Student>(dto);
@@ -98,7 +100,7 @@ namespace sakan.Controllers
             return Ok(new { token = accessToken, Id = id, Gender = gender });
         }
 
-
+        // http://localhost:5160/api/Tokens/OwnerLogin
         [HttpPost("OwnerLogin")]
         public async Task<ActionResult> OwnerLogin(AuthDTO userAuth)
         {
@@ -131,9 +133,9 @@ namespace sakan.Controllers
             return Unauthorized();
         }
 
-
+        // http://localhost:5160/api/Tokens/OwnerSignUp
         [HttpPost("OwnerSignUp")]
-        public async Task<IActionResult> createOwner([FromForm] CreateOwnerDTO dto)
+        public async Task<IActionResult> createOwner( CreateOwnerDTO dto)
         {
             var owner = _mapper.Map<HouseOwner>(dto);
 

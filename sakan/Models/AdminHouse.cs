@@ -2,7 +2,7 @@
 
 namespace sakan.Models
 {
-    public class House
+    public class AdminHouse
     {
         public int Id { get; set; }
         public string Location { get; set; }
@@ -18,10 +18,10 @@ namespace sakan.Models
         public int Price { get; set; }
         public string? Sex { get; set; }
         public string? Time { get; set; }
-
         public int HouseOwnerID { get; set; }
         [ForeignKey("HouseOwnerID")]
         public HouseOwner HouseOwner { get; set; }
         public List<Student> Student { get; set; }
+
     }
 }
